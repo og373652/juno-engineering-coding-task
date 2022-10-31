@@ -24,6 +24,8 @@ const getAmountOfDaysFromNowToDate = (date) => {
 }
 
 export const fetchAllOrders = async() => {
+    // .....
+    //   1. TODO: fetch all ids using the "fetchOrderById" and the given ids, make it work as efficient and clean as possible.
     const ids = allIds;
     const allOrdersData = await Promise.all(ids.map((id) => fetchOrderById(id)));
     return allOrdersData;
@@ -42,6 +44,7 @@ export const bucketOrdersByUsers = async() => {
 };
 
 export const getLast2WeeksOrders = async() => {
+    //   3. TODO: fetch all Ids and return array with only the last 2 weeks orders. make it work as efficient and clean as possible.
     const allOrders = await fetchAllOrders();
     const ordersFromLastTwoWeeks = allOrders.filter((order) => {
         const { timestamp } = order;
@@ -74,7 +77,6 @@ getLast2WeeksOrders();
 // .then(console.log);
 
 bucketOrdersByDate();
-
 // .then(console.log);
 
 ////////////////////////////////////////
