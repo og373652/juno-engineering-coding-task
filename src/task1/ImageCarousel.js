@@ -3,6 +3,7 @@ import { fetchImage, fetchImageUrls } from "../api/index";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ImageFrame from "./ImageFrame";
+import ImageCarouselContainer from "./styled";
 
 const MOVEMENT_DIRECTIONS = {
     BACK: 'back',
@@ -17,7 +18,6 @@ const ImageCarousel = (props) => {
     const [imageUrls, setImageUrls] = useState([]);
     const [imageIndex, setImageIndex] = useState(0);
     const handleMoveImage = (movementDirection) => {
-        console.log('moving to direction', movementDirection);
         setImageIndex((oldImageIndex) => {
             let newIndex = oldImageIndex + MOVEMENTS_TO_UPDATE_MAP[movementDirection];
             if(newIndex < 0) {
@@ -26,7 +26,6 @@ const ImageCarousel = (props) => {
             if(newIndex >= imageUrls.length) {
                 newIndex = 0;
             }
-            console.log('index after update', newIndex);
             return newIndex;
         })
     };
@@ -38,16 +37,13 @@ const ImageCarousel = (props) => {
     useEffect(() => {
         updateImageUrls();
     }, []);
-    useEffect(() => {
-        console.log('image index changed',imageUrls[imageIndex], imageIndex);
-        }, [imageIndex]);
 
     return (
-    <Fragment>
+    <ImageCarouselContainer>
         <ArrowBackIcon className="arrow-back" onClick={() => handleMoveImage(MOVEMENT_DIRECTIONS.BACK)}/>
-        <ImageFrame imageUrl={imageUrls[imageIndex]}/>
+        <ImageFrame imageUrl={imageUrls[imageIndex]} />
         <ArrowForwardIcon className="arrow-forward" onClick={() => handleMoveImage(MOVEMENT_DIRECTIONS.FORWARD)} />
-    </Fragment> 
+    </ImageCarouselContainer> 
     );
 };
 export default ImageCarousel;

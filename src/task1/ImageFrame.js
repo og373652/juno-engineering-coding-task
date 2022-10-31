@@ -1,19 +1,28 @@
 import { CircularProgress } from "@mui/material";
-import React, {  Fragment, useState } from "react";
+import React, {  Fragment, useEffect, useState } from "react";
 
 const ImageFrame = ({imageUrl}) => {
     const [loaded, setLoaded] = useState(false);
-    console.log('imageUrlINFRAME', imageUrl);
+    useEffect(() => {
+        setLoaded(false);
+    }, [imageUrl]);
+    const handleLoad = () => {
+        setLoaded(true);
+    }
     return (
-    loaded ? ( <img
-        style={loaded ? {} : { display: 'none' }}
-        src={imageUrl}
-        onLoad={() => setLoaded(true)}
-      /> ) :
-      <Fragment>
-        <p>Loading image...</p>
-      <CircularProgress />
-      </Fragment>
-    );
-};
+        <div className="frame">
+            
+        <img
+            style={{display: loaded ? 'block' : 'none'}}
+            key={imageUrl}
+            src={imageUrl}
+            onLoad={handleLoad}
+            alt="not available"
+        /> 
+        {!loaded && <div className="loader-frame">
+            <p>Loading image...</p>
+        <CircularProgress/>
+        </div>}
+        </div>
+    )};
 export default ImageFrame;
