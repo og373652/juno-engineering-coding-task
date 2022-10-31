@@ -4,7 +4,7 @@ const ImageCarouselContainer = styled.div`
     .arrow-back {
         position: absolute;
         bottom: 50%;
-        width: 50px;
+        left: 0;
     }
     .arrow-forward {
         position: absolute;
