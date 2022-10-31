@@ -14,6 +14,10 @@ const safeAddToMap = (map, key, value) => {
     } 
     map[key].push(value);
 }
+const getFormattedDateFromUnixTime = (unixTime) => {
+    const date = new Date(unixTime);
+    return date.toLocaleDateString();
+}
 const getAmountOfDaysFromNowToDate = (date) => {
     const today = new Date();
     const dateToCheck = new Date(date);
@@ -61,8 +65,8 @@ export const bucketOrdersByDate = async() => {
     const lastTwoWeeksOrders = await getLast2WeeksOrders();
     lastTwoWeeksOrders.forEach((order) => {
         const { timestamp } = order;
-        const daysFromNow = getAmountOfDaysFromNowToDate(timestamp);
-        safeAddToMap(ordersByDate, daysFromNow, order);
+        const date = getFormattedDateFromUnixTime(timestamp);
+        safeAddToMap(ordersByDate, date, order);
     });
     return ordersByDate;
 };
