@@ -1,5 +1,5 @@
 import { CircularProgress } from "@mui/material";
-import React, {  useEffect, useState } from "react";
+import React, {  Fragment, useEffect, useState } from "react";
 import { fetchImage } from "../api";
 
 const ImageFrame = ({imageIndex}) => {
@@ -25,22 +25,24 @@ const ImageFrame = ({imageIndex}) => {
     }, [imageIndex]);
 
     return (
-        <div className="frame">
+        <div className="frame" data-testid="imageFrame">
             {errorWithImage ? (
                 <p>Error loading this image 😦 try another one using the arrows</p>
-            ) : 
-            imageUrl ? 
+            ) : (
+                <Fragment>
                 <img
+                    hidden={!imageUrl}
+                    data-testid="image"
                     key={imageIndex}
                     src={imageUrl}
                     alt="not available"
                 />
-                : (
-                <div className="loader-frame">
+                {!imageUrl && <div className="loader-frame" data-testid="imageLoader"> 
                     <p>Loading image...</p>
-                    <CircularProgress/>
-                </div>
-            ) }
+                    <CircularProgress data-testid="spinner"/>
+                </div>}
+                </Fragment>
+            )}
         </div>
     )};
 

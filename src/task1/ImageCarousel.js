@@ -43,12 +43,12 @@ const ImageCarousel = (props) => {
     <ImageCarouselContainer>
         {imageUrls.length > 0 ? ( 
         <Fragment>
-        <ArrowBackIcon className="arrow-back" onClick={() => handleMoveImage(MOVEMENT_DIRECTIONS.BACK)}/>
+        <ArrowBackIcon className="arrow-back" onClick={() => handleMoveImage(MOVEMENT_DIRECTIONS.BACK)} data-testid="arrowBack"/>
         <ImageFrame imageIndex={imageIndex} />
-        <ArrowForwardIcon className="arrow-forward" onClick={() => handleMoveImage(MOVEMENT_DIRECTIONS.FORWARD)} />
+        <ArrowForwardIcon className="arrow-forward" onClick={() => handleMoveImage(MOVEMENT_DIRECTIONS.FORWARD)} data-testid="arrowForward"/>
         </Fragment>
         ) : (
-        <div className="empty-carousel">
+        <div className="empty-carousel" data-testid="emptyCarousel">
             <p>Loading the carousel, We are working on it... 🎠</p>
             <CircularProgress />
         </div>
