@@ -21,9 +21,14 @@ const validateOrders = (orders) => {
     //if the order is actually an array we want to validate each order in the array recursively
     ordersArray.forEach((order) => Array.isArray(order) ? validateOrders(order) : validateOrderObject(order));
 };
-const validateOrdersBucketKeys = (ordersBucket, keyType) => {
+const validateOrdersBucketKeys = (ordersBucket, keyType, validationCallback = null) => {
     const keys = Object.keys(ordersBucket);
-    keys.forEach((key) => expect(typeof key).toBe(keyType));
+    keys.forEach((key) => {
+        expect(typeof key).toBe(keyType)
+        if (validationCallback) {
+            validationCallback(key);
+        }
+    });
 };
 test("Ecommerce - fetchOrderById", async () => {
     let orders = await fetchOrderById(ORDER_ID);
@@ -42,9 +47,21 @@ test('Can get user order bucket, mapped by userId', async () => {
 test('Can get orders from last 2 weeks', async () => {
     const relevantOrders = await getLast2WeeksOrders();
     validateOrders(relevantOrders);
-})
+    relevantOrders.forEach(({timestamp}) => {
+        const now = new Date();
+        const daysFromNow = Math.ceil((now - timestamp) / (1000 * 60 * 60 * 24));
+        expect(daysFromNow).toBeLessThanOrEqual(14);
+    })
+});
 test('Can get orders bucket by day', async() => {
     const orderByDateBucket = await bucketOrdersByDate();
     validateOrders(orderByDateBucket);
-    validateOrdersBucketKeys(orderByDateBucket, 'string');
-})
+    validateOrdersBucketKeys(
+        orderByDateBucket,
+        'string',
+        (bucketKey) => {
+            const date = new Date(bucketKey);
+            expect(date).toBeTruthy();
+            expect(date.toString()).not.toBe('Invalid Date');
+        });
+});
