@@ -10,16 +10,21 @@ const ImageCarouselContainer = styled.div`
         position: absolute;
         top: 50%;
         right: 0;
-    }
-    img {
-        max-width:600px;
-        max-height:600px;
+    } 
+    .empty-carousel {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+        p {
+            font-size: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-right: 15px;
+        }
     }
-    .loader-frame {
+    
+    .frame {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -30,8 +35,14 @@ const ImageCarouselContainer = styled.div`
             margin: 35px;
             display: inline-block;
         }
-    }
-    
-    
-    `;
+        img {
+            max-width:600px;
+            max-height:600px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }    
+`;
 export default ImageCarouselContainer;

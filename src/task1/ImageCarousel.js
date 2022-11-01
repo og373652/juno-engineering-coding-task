@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { fetchImage, fetchImageUrls } from "../api/index";
+import { fetchImageUrls } from "../api/index";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ImageFrame from "./ImageFrame";
 import ImageCarouselContainer from "./styled";
+import { CircularProgress } from "@mui/material";
 
 const MOVEMENT_DIRECTIONS = {
     BACK: 'back',
@@ -30,20 +31,29 @@ const ImageCarousel = (props) => {
         })
     };
 
-    const updateImageUrls = async () => {
+    const fetchUrls = async () => {
         const imageUrls = await fetchImageUrls();
         setImageUrls(imageUrls);
     }
     useEffect(() => {
-        updateImageUrls();
+        fetchUrls();
     }, []);
 
     return (
     <ImageCarouselContainer>
+        {imageUrls.length > 0 ? ( 
+        <Fragment>
         <ArrowBackIcon className="arrow-back" onClick={() => handleMoveImage(MOVEMENT_DIRECTIONS.BACK)}/>
-        <ImageFrame imageUrl={imageUrls[imageIndex]} />
+        <ImageFrame imageIndex={imageIndex} />
         <ArrowForwardIcon className="arrow-forward" onClick={() => handleMoveImage(MOVEMENT_DIRECTIONS.FORWARD)} />
+        </Fragment>
+        ) : (
+        <div className="empty-carousel">
+            <p>Loading the carousel, We are working on it... 🎠</p>
+            <CircularProgress />
+        </div>
+        )}
     </ImageCarouselContainer> 
     );
-};
+}
 export default ImageCarousel;
